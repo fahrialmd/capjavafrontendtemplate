@@ -1,10 +1,10 @@
-using {com.win.template as temp} from '../index';
+using {com.fahrialmd.bookstore as bookstore} from '../index';
 
-extend temp.Books with {
-    isbn : temp.ISBN;
+extend bookstore.Books with {
+    isbn : bookstore.ISBN;
 }
 
 // input validation
-annotate temp.Books with {
+annotate bookstore.Books with {
     isbn @mandatory;
 }

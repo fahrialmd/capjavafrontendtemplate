@@ -1,18 +1,18 @@
-namespace com.win.template;
+namespace com.fahrialmd.bookstore;
 
 using {
     cuid,
     managed
 } from '@sap/cds/common';
 
-using {com.win.template as temp} from '../index';
+using {com.fahrialmd.bookstore as bookstore} from '../index';
 
 entity Reviews : cuid, managed {
     @cds.odata.ValueList
-    book   : Association to temp.Books;
-    rating : temp.rating;
-    title  : temp.title;
-    descr  : temp.description;
+    book   : Association to bookstore.Books;
+    rating : bookstore.rating;
+    title  : bookstore.title;
+    descr  : bookstore.description;
 }
 
 // input validation

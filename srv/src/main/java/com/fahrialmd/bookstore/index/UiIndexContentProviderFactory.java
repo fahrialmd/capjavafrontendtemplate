@@ -1,4 +1,4 @@
-package com.win.template_platform.index;
+package com.fahrialmd.bookstore.index;
 
 import java.io.PrintWriter;
 

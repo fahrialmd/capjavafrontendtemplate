@@ -1,4 +1,4 @@
-package com.win.template_platform.configuration;
+package com.fahrialmd.bookstore.configuration;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

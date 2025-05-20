@@ -1,4 +1,4 @@
-package com.win.template_platform.configuration;
+package com.fahrialmd.bookstore.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
