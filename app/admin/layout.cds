@@ -9,7 +9,7 @@ annotate BookService.Books with @(
         isbn,
         title,
         descr,
-        price,
+        rating,
         currency_code
     ],
     UI.LineItem           : [
@@ -64,11 +64,11 @@ annotate BookService.Books with @(
             @UI.Importance    : #Medium,
         },
         {
-            $Type             : 'UI.DataFieldForAnnotation',
-            Target            : '@UI.LineItem#rating',
-            Label             : '{i18n>Rating}',
-            @UI.Importance    : #High,
-            @UI.Hidden        : true
+            $Type         : 'UI.DataFieldForAnnotation',
+            Target        : '@UI.LineItem#rating',
+            Label         : '{i18n>Rating}',
+            @UI.Importance: #High,
+            @UI.Hidden    : true
         }
 
     ],
