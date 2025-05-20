@@ -8,7 +8,7 @@ annotate BookService.Books with @title: '{i18n>Books}' {
     currency @Common.Label: '{i18n>Code}';
     stock    @Common.Label: '{i18n>Stock}';
     rating   @Common.Label: '{i18n>Rating}';
-    status   @Common.Label            : '{i18n>Status}'  @Common.Text : status.text  @Common.TextArrangement: #TextOnly;
+    status   @Common.Label            : '{i18n>Status}'  @Common.Text : status.name  @Common.TextArrangement: #TextOnly;
 }
 
 actions {
