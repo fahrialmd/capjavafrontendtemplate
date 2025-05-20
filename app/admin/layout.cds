@@ -47,6 +47,29 @@ annotate BookService.Books with @(
             Value             : stock,
             @HTML5.CssDefaults: {width: '5em'}
         },
+        {
+            $Type             : 'UI.DataFieldForAction',
+            Action            : 'BookService.addReview',
+            Label             : '{i18n>Addreview}',
+            Inline            : true,
+            InvocationGrouping: #Isolated,
+            @UI.Importance    : #Medium,
+        },
+        {
+            $Type             : 'UI.DataFieldForAction',
+            Action            : 'BookService.addReview',
+            Label             : '{i18n>Addreview}',
+            Inline            : false,
+            InvocationGrouping: #Isolated,
+            @UI.Importance    : #Medium,
+        },
+        {
+            $Type             : 'UI.DataFieldForAnnotation',
+            Target            : '@UI.LineItem#rating',
+            Label             : '{i18n>Rating}',
+            @UI.Importance    : #High,
+            @UI.Hidden        : true
+        }
 
     ],
     UI.DataPoint #rating  : {
