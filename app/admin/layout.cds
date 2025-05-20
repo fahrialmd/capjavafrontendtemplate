@@ -10,6 +10,7 @@ annotate BookService.Books with @(
         title,
         descr,
         rating,
+        status_code,
         currency_code
     ],
     UI.LineItem           : [
@@ -22,6 +23,12 @@ annotate BookService.Books with @(
             $Type             : 'UI.DataField',
             Value             : title,
             @HTML5.CssDefaults: {width: '10em'}
+        },
+        {
+            $Type             : 'UI.DataField',
+            Value             : status_code,
+            @UI.Importance    : #High,
+            @HTML5.CssDefaults: {width: '6em'}
         },
         {
             $Type             : 'UI.DataField',

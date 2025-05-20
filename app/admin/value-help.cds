@@ -1,6 +1,7 @@
 using from '../../srv/books-service';
 
 annotate BookService.Books with {
+    status @Common.ValueListWithFixedValues;
     isbn   @(
         Common.ValueList               : {
             $Type                       : 'Common.ValueListType',

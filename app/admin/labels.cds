@@ -8,10 +8,15 @@ annotate BookService.Books with @title: '{i18n>Books}' {
     currency @Common.Label: '{i18n>Code}';
     stock    @Common.Label: '{i18n>Stock}';
     rating   @Common.Label: '{i18n>Rating}';
+    status   @Common.Label            : '{i18n>Status}'  @Common.Text : status.text  @Common.TextArrangement: #TextOnly;
 }
 
 actions {
     addReview(rating
-                                @title: '{i18n>Rating}', title  @title: '{i18n>Title}',  descr  @title: '{i18n>Description}'
+                                @title: '{i18n>Rating}', title  @title: '{i18n>Title}',  descr  @title      : '{i18n>Description}'
     )
 };
+
+annotate BookService.status with {
+    code  @Common.Text: name  @Common.TextArrangement: #TextOnly
+}

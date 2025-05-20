@@ -16,8 +16,10 @@ entity Books : cuid, managed {
     price        : bookstore.price;
     currency     : Currency;
     rating       : bookstore.rating;
-    review       : Association to many bookstore.Reviews;
+    review       : Association to many bookstore.Reviews
+                       on review.book = $self;
     isReviewable : bookstore.Tech_Boolean not null default true;
+    status       : Association to bookstore.status @readonly;
 }
 
 // input validation
