@@ -1,9 +1,9 @@
 {
 	"_version": "1.8.0",
 	"sap.app": {
-		"id": "admin",
+		"id": "browser",
 		"type": "application",
-		"i18n": "_i18n/i18n.properties",
+		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
 			"version": "0.0.1"
 		},
@@ -12,7 +12,7 @@
 		"resources": "resources.json",
 		"dataSources": {
 			"BookService": {
-				"uri": "/api/books/",
+				"uri": "/api/browser/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0"
@@ -35,7 +35,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "admin._i18n.i18n"
+					"bundleName": "browser.i18n.i18n"
 				}
 			},
 			"": {
@@ -55,7 +55,7 @@
 			},
 			"@i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
-				"uri": "_i18n/i18n.properties"
+				"uri": "i18n/i18n.properties"
 			}
 		},
 		"routing": {
@@ -86,15 +86,12 @@
 									}
 								}
 							},
-							"content": {
-								"header": {
-									"actions": {
-										"import_books": {
-											"press": "admin.ext.controller.importBooks.import",
-											"visible": true,
-											"enabled": true,
-											"text": "{i18n>importBooks}"
-										}
+							"initialLoad": "Enabled",
+							"controlConfiguration": {
+								"@com.sap.vocabularies.UI.v1.LineItem": {
+									"tableSettings": {
+										"selectAll": false,
+										"selectionMode": "Multi"
 									}
 								}
 							}

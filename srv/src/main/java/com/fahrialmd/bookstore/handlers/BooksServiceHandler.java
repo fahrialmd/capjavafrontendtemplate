@@ -8,11 +8,14 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fahrialmd.bookstore.common.MessageKeys;
+import com.fahrialmd.bookstore.common.RatingCalculator;
 import com.sap.cds.Result;
 import com.sap.cds.ql.Insert;
+import com.sap.cds.ql.Update;
 import com.sap.cds.ql.cqn.AnalysisResult;
 import com.sap.cds.ql.cqn.CqnAnalyzer;
 import com.sap.cds.ql.cqn.CqnInsert;
@@ -23,39 +26,39 @@ import com.sap.cds.services.ServiceException;
 import com.sap.cds.services.cds.CdsUpdateEventContext;
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.After;
+import com.sap.cds.services.handler.annotations.Before;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
 
 import cds.gen.bookservice.AddReviewContext;
 import cds.gen.bookservice.BookService_;
-import cds.gen.bookservice.Books;
+import cds.gen.bookservice.Books_;
 import cds.gen.bookservice.Reviews;
 import cds.gen.bookservice.Reviews_;
 import cds.gen.bookservice.Upload;
 import cds.gen.bookservice.Upload_;
 
+import cds.gen.com.fahrialmd.bookstore.Books;
+
 @Component
 @ServiceName(BookService_.CDS_NAME)
 public class BooksServiceHandler implements EventHandler {
 
-    private final CqnAnalyzer analyzer;
-    private final PersistenceService db;
+    @Autowired
+    private CdsModel model;
 
-    BooksServiceHandler(PersistenceService db, CdsModel model) {
-        this.db = db;
-        this.analyzer = CqnAnalyzer.create(model);
-    }
+    @Autowired
+    private PersistenceService db;
+
+    @Autowired
+    private RatingCalculator ratingCalculator;
 
     @On(event = AddReviewContext.CDS_NAME)
-    public void addReview(AddReviewContext context) {
+    public void onAddReview(AddReviewContext context) {
 
-        System.out.println("test result from here：/");
-
-        CqnSelect select = context.getCqn();
-        AnalysisResult result = analyzer.analyze(select);
-        Map<String, Object> targetKeys = result.targetKeys();
-        String bookId = (String) targetKeys.get(Books.ID);
+        String bookId = (String) CqnAnalyzer.create(model).analyze(context.getCqn()).targetKeys().get(Books.ID);
 
         Reviews review = Reviews.create();
         review.setBookId(bookId);
@@ -63,12 +66,44 @@ public class BooksServiceHandler implements EventHandler {
         review.setTitle(context.getTitle());
         review.setDescr(context.getDescr());
 
-        // CqnSelect select2 = Select.from(Reviews_.CDS_NAME).byId(bookId);
-        CqnInsert insert = Insert.into(Reviews_.CDS_NAME).entry(review);
-        Result dbResult = db.run(insert);
-        Reviews newReview = dbResult.single(Reviews.class);
+        context.setResult(db.run(Insert.into(Reviews_.CDS_NAME).entry(review)).single(Reviews.class));
+    }
 
-        context.setResult(newReview);
+    @After(event = AddReviewContext.CDS_NAME)
+    public void afterAddedReview(AddReviewContext context) {
+        String bookId = context.getResult().getBookId();
+        ratingCalculator.setBookRating(bookId);
+        db.run(Update.entity(BookService_.BOOKS, b -> b.matching(Books.create(bookId))).data(Books.IS_REVIEWABLE,
+                false));
+    }
+
+    @Before(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+    public void ininBooksBeforeRead() {
+        ratingCalculator.initBookRatings();
+    }
+
+    @Before(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
+    public void initBookBeforeCreate(Books book) {
+        book.setStatusCode("A");
+        book.setIsbn(getNextIsbn());
+    }
+
+    private String getNextIsbn() {
+        String isbnPrefix = "Win-";
+        String isbnSuffix = "1000000000";
+        return isbnPrefix + isbnSuffix;
+    }
+
+    @On(event = CqnService.EVENT_CREATE, entity = Books_.CDS_NAME)
+    public void changeBookOnCreate(Books book) {
+        if (book.getStock() == 0) {
+            book.setStatusCode("O");
+        }
+    }
+
+    @On(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)
+    public void changeBookOnUpdate(Books book) {
+        book.setStatusCode(book.getStock() == 0 ? "O" : "A");
     }
 
     @On(entity = Upload_.CDS_NAME, event = CqnService.EVENT_READ)

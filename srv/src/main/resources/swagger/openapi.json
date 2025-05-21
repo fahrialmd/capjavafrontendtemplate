@@ -193,7 +193,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -325,7 +325,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -607,7 +607,7 @@
         }
       }
     },
-    "/Books({ID})/review": {
+    "/Books({ID})/reviews": {
       "parameters": [
         {
           "description": "key: ID",
@@ -622,7 +622,7 @@
         }
       ],
       "get": {
-        "summary": "Retrieves a list of review of a book.",
+        "summary": "Retrieves a list of reviews of a book.",
         "tags": [
           "Books",
           "Reviews"
@@ -725,7 +725,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Retrieved review",
+            "description": "Retrieved reviews",
             "content": {
               "application/json": {
                 "schema": {
@@ -2042,7 +2042,7 @@
                 "enum": [
                   "*",
                   "currency",
-                  "review",
+                  "reviews",
                   "status",
                   "texts",
                   "localized"
@@ -2858,13 +2858,13 @@
             "x-sap-scale": 1,
             "nullable": true
           },
-          "review": {
+          "reviews": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookService.Reviews"
             }
           },
-          "review@count": {
+          "reviews@count": {
             "$ref": "#/components/schemas/count"
           },
           "isReviewable": {
