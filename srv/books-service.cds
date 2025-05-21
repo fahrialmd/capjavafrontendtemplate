@@ -8,4 +8,9 @@ service BookService {
     };
 
   entity Reviews as projection on bookstore.Reviews;
+
+  @cds.persistence.skip
+  entity Upload @odata.singleton {
+    csv : LargeBinary @Core.MediaType: 'text/csv';
+  }
 }
