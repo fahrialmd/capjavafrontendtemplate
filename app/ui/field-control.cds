@@ -2,12 +2,12 @@ using from '../../srv/books-service';
 using from '../../srv/browser-service';
 
 annotate BookService.Books with {
-    ID      @UI.Hidden  @UI.HiddenFilter;
-    isbn    @Common.FieldControl : #ReadOnly;
-    descr   @UI.MultiLineText    : true;
-    price   @Measures.ISOCurrency: currency.code;
+    ID       @UI.Hidden  @UI.HiddenFilter;
+    isbn     @Common.FieldControl : #ReadOnly;
+    descr    @UI.MultiLineText    : true;
+    price    @Measures.ISOCurrency: currency.code;
     // currency @UI.Hidden;
-    review  @UI.Hidden  @UI.HiddenFilter;
+    reviews  @UI.Hidden  @UI.HiddenFilter;
 } actions {
     @(
         Common.SideEffects             : {
