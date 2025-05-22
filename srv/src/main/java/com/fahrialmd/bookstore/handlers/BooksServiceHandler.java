@@ -73,8 +73,14 @@ public class BooksServiceHandler implements EventHandler {
     public void afterAddedReview(AddReviewContext context) {
         String bookId = context.getResult().getBookId();
         ratingCalculator.setBookRating(bookId);
-        db.run(Update.entity(BookService_.BOOKS, b -> b.matching(Books.create(bookId))).data(Books.IS_REVIEWABLE,
-                false));
+        setBookUnreviewable(bookId, false);
+    }
+
+    private void setBookUnreviewable(String bookId, Boolean reviewable) {
+        Books book = Books.create();
+        book.setId(bookId);
+        db.run(Update.entity(BookService_.BOOKS, b -> b.matching(book)).data(Books.IS_REVIEWABLE,
+                reviewable));
     }
 
     @Before(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)

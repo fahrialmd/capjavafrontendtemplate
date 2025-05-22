@@ -149,7 +149,14 @@ annotate service.Books with @(
                 Label: '{i18n>Modifiedby}'
             }
         ]
-    }
+    },
+    Common                       : {SideEffects #StockChanges: {
+        SourceProperties: [stock],
+        TargetProperties: [
+            'price',
+            'status_code'
+        ]
+    }}
 );
 
 
